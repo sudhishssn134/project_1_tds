@@ -2,17 +2,12 @@ import os
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
-from dateutil import parser
-from datetime import *
 import uvicorn
 import json
-from openai import OpenAI
-import openai
 import base64
-import re
 import requests
 import subprocess
-import uv
+
 api = FastAPI()
 
 api.add_middleware(
@@ -94,7 +89,7 @@ def llm_executor(task, error=None):
     """
     url = 'https://aiproxy.sanand.workers.dev/openai/v1/chat/completions'  # Replace with the actual URL of the LLM image processing service
     head = {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjI0ZjIwMDI1MzNAZHMuc3R1ZHkuaWl0bS5hYy5pbiJ9.wtkxSDSH_QwADwGxMDdCu6CBGS0ckR5F7fqCrfhmLfg",
+        "Authorization": f"Bearer {AIPROXY_TOKEN}",
         "Content-Type": "application/json"}
     data = {"model": "gpt-4o-mini", "messages": [
         {
@@ -130,7 +125,7 @@ def llm_executor(task, error=None):
 def task_runner(task):
     url = 'https://aiproxy.sanand.workers.dev/openai/v1/chat/completions'  # Replace with the actual URL of the LLM image processing service
     head = {
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjI0ZjIwMDI1MzNAZHMuc3R1ZHkuaWl0bS5hYy5pbiJ9.wtkxSDSH_QwADwGxMDdCu6CBGS0ckR5F7fqCrfhmLfg",
+        "Authorization": f"Bearer {AIPROXY_TOKEN}",
         "Content-Type": "application/json"}
     data = {"model": "gpt-4o-mini", "messages": [
         {
@@ -197,6 +192,6 @@ def project_1_check(path):
 
 
 if __name__ == "__main__":
-  (uvicorn.run(api, host="localhost", port=8000))
+  (uvicorn.run(api, host="0.0.0.0", port=8000))
 
 
