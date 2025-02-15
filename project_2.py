@@ -4,6 +4,7 @@ from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 from dateutil import parser
 from datetime import *
+import uvicorn
 import json
 from openai import OpenAI
 import openai
@@ -195,7 +196,7 @@ def project_1_check(path):
         raise HTTPException(status_code=404, detail="Not Found")
 
 
+if __name__ == "__main__":
+  (uvicorn.run(api, host="localhost", port=8000))
 
 
-
-project_1("Install uv (if required) and run https://raw.githubusercontent.com/sanand0/tools-in-data-science-public/tds-2025-01/project-1/datagen.py with ${user.email} as the only argument. (NOTE: This will generate data files required for the next tasks.)")
