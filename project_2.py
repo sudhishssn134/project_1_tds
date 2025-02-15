@@ -67,7 +67,7 @@ def get_files():
     f = open("datagen.py", "w")
     f.write(rt)
     f.close()
-    subprocess.run(["uv", "run", "datagen.py", "24f2002533@ds.study.iitm.ac.in"])
+    subprocess.run(["uvicorn", "run", "datagen.py", "24f2002533@ds.study.iitm.ac.in"])
 def llm_executor(task, error=None):
     with open("code_execute.py", "r") as f:
         code = f.read()
@@ -143,7 +143,7 @@ def task_runner(task):
         f = open("code_execute.py", "w")
         f.write(python_code)
         f.close()
-        output = subprocess.run(["uv","run","code_execute.py"], capture_output=True, text=True, cwd=os.getcwd())
+        output = subprocess.run(["python", "code_execute.py"], capture_output=True, text=True, cwd=os.getcwd())
         st_error = output.stderr.split("\n")
         st_output = output.stdout
         st_r = output.returncode
@@ -158,8 +158,10 @@ def task_runner(task):
         return {'error':"Error-S2"}
     else:
         return {'error':"Error-S1"}
+
+
 @api.post("/run")
-def project_1(task):
+def project_1(task: str):
     output = task_runner(task)
     if "https://raw.githubusercontent.com/sanand0/tools-in-data-science-public/tds-2025-01" in task:
         get_files()
